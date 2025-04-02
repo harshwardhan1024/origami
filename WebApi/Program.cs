@@ -1,9 +1,11 @@
+using FastEndpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddFastEndpoints();
 
 var app = builder.Build();
 
-app.MapControllers();
+app.UseFastEndpoints();
 
 app.Run();
