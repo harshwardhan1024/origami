@@ -2,20 +2,20 @@
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+ARG BUILDPLATFORM
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
+ARG TARGETARCH
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
-RUN dotnet restore "WebApi/WebApi.csproj"
+RUN dotnet restore "WebApi/WebApi.csproj" -a $TARGETARCH
 COPY . .
 WORKDIR "/src/WebApi"
-RUN dotnet build "WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build -a $TARGETARCH
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false -a $TARGETARCH
 
 FROM base AS final
 WORKDIR /app

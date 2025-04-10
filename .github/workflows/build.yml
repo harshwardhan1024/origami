@@ -42,9 +42,5 @@ jobs:
       # Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/origami:latest .
-      
-      # Push the Docker image
-      - name: Push Docker image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/origami:latest
+          docker buildx create --use
+          docker buildx build --push --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/origami:latest .
