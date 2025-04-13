@@ -2,7 +2,7 @@ namespace WebApi.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOpenApiServices(this IServiceCollection services)
+    public static void AddOpenApiServices(this IServiceCollection services)
     {
         services.AddOpenApi(options =>
         {
@@ -19,7 +19,5 @@ The API evolves continuously as new needs arise."
                 return Task.CompletedTask;
             });
         });
-
-        return services;
     }
 }
