@@ -9,4 +9,17 @@ public static class EndpointRouteBuilderExtensions
         endpoints.MapOpenApi().CacheOutput();
         endpoints.MapScalarApiReference("/openapi");
     }
+
+    public static void MapHealthCheckRoutes(this IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapHealthChecks("/healthz/ready", new()
+        {
+            Predicate = (check) => check.Tags.Contains("readiness"),
+        });
+        
+        endpoints.MapHealthChecks("/healthz/live", new()
+        {
+            Predicate = (check) => check.Tags.Contains("liveness"),
+        });
+    }
 }
