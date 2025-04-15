@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
                 d.Info = new()
                 {
                     Title = "Origami API",
+                    Version = "1.0.0",
                     Description = @"
 The API serves as a flexible environment for testing new tools, exploring technologies, and experimenting with ideas. 
 The API evolves continuously as new needs arise."
