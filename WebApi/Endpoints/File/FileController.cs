@@ -11,7 +11,7 @@ public class FileController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
     [EndpointName(nameof(CreateFile))]
-    [EndpointSummary("Create a file.")]
+    [EndpointSummary("Create a file")]
     [EndpointDescription("""
                          This endpoint creates a file with the specified filename.
                          Only filename is required, rest fields are optional.
