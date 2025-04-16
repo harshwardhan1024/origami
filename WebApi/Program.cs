@@ -1,4 +1,5 @@
 using WebApi.Extensions;
+using WebApi.Middlewares;
 using WebApi.Options;
 using WebApi.Services.Background;
 using FileOptions = WebApi.Options.FileOptions;
@@ -18,6 +19,8 @@ builder.Services.AddHealthCheckServices();
 builder.Services.AddHostedService<CreateDirectoryBackgroundService>();
 
 builder.Services.Configure<HealthCheckOptions>(builder.Configuration.GetSection(nameof(HealthCheckOptions)));
+builder.Services.Configure<SystemInformationOptions>(
+    builder.Configuration.GetSection(nameof(SystemInformationOptions)));
 builder.Services.AddOptions<FileOptions>()
     .Bind(builder.Configuration.GetSection(nameof(FileOptions)))
     .ValidateDataAnnotations()
@@ -25,6 +28,7 @@ builder.Services.AddOptions<FileOptions>()
 
 var app = builder.Build();
 
+app.UseMiddleware<ResponseHeadersEnricherMiddleware>();
 app.MapControllers();
 app.MapOpenApiRoutes();
 app.MapHealthCheckRoutes();
